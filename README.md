@@ -1,7 +1,8 @@
 # TaskManager_CLI
 
 This programme is being created as part of my Java training. It is To-Do-List type of application with Command Line Interface. It will:  
-* read .csv file with tasks save new tasks,  
+* read .csv file with tasks,  
+* save new tasks,  
 * delete task that have already been done,  
 * and even have colorful text to please user's eyes. 😯
 
