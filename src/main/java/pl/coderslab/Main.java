@@ -38,6 +38,7 @@ public class Main {
                 System.out.println("Please select a correct option.");
             }
         }
+        inputScanner.close();
 
         switch (input) {
             case "add" -> addTask();
@@ -45,7 +46,6 @@ public class Main {
             case "list" -> listTasks();
             case "exit" -> System.out.println("Bye, bye");
         }
-
     }
 
 
