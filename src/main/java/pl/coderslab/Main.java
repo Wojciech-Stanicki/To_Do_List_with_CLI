@@ -66,12 +66,20 @@ public class Main {
 
     public static String[][] addTask(String[][] taskTable) {
 
-        System.out.println("Please add task description:");
 
         String[] newTask = {"Undefined Task", "0000-00-00", "false"};
-
         Scanner inputScanner = new Scanner(System.in);
-        newTask[0] = inputScanner.nextLine().strip();
+        String inputTaskName;
+
+        while (true) {
+            System.out.println("Please add task description:");
+            inputTaskName = inputScanner.nextLine().strip();
+            if (!inputTaskName.isBlank()){
+                break;
+            } else {
+                System.out.println("Task name can't be blank.");
+            }
+        }
 
         Pattern dateFormat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
         Matcher inputMatcher;
