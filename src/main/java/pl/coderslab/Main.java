@@ -14,6 +14,9 @@ public class Main {
 
         String[][] taskTable = loadCsvData("tasks.csv");
         printInteface();
+
+        String command = getCommand();
+        takeAction(command, taskTable);
     }
 
 
@@ -21,74 +24,91 @@ public class Main {
 
         System.out.println("Please select an option:");
         System.out.println(
-                """
-                add
-                remove
-                list
-                exit"""
+                            """
+                            add
+                            remove
+                            list
+                            exit"""
         );
-
-        String input;
-
-
-        try (Scanner inputScanner = new Scanner(System.in)) {
-            while (true) {
-                input = inputScanner.nextLine().strip();
-                if (isValidOption(input)) {
-                    break;
-                } else {
-                    System.out.println("Please select a correct option.");
-                }
-            }
-        }
-
-        switch (input) {
-            case "add" -> addTask();
-            case "remove" -> removeTask();
-            case "list" -> listTasks();
-            case "exit" -> System.out.println("Bye, bye");
-        }
     }
 
 
-    public static void addTask() {
+    public static String getCommand() {
+
+        String input;
+        Scanner inputScanner = new Scanner(System.in);
+
+        while (true) {
+            input = inputScanner.nextLine().strip();
+            if (isValidCommand(input)) {
+                break;
+            } else {
+                System.out.println("Please select a correct option.");
+            }
+        }
+
+
+        return input;
+    }
+
+    public static String[][] takeAction(String action, String[][] taskTable) {
+
+        switch (action) {
+            case "add" -> addTask(taskTable);
+            case "remove" -> removeTask(taskTable);
+            case "list" -> listTasks(taskTable);
+            case "exit" -> saveAndExit(taskTable);
+        }
+
+        return taskTable;
+    }
+
+
+    public static String[][] addTask(String[][] taskTable) {
 
         System.out.println("Please add task description:");
 
         String[] newTask = {"Undefined Task", "0000-00-00", "false"};
 
-        try (Scanner inputScanner = new Scanner(System.in)) {
-            newTask[0] = inputScanner.nextLine().strip();
-        }
-
-        System.out.println("Please add task due date:");
+        Scanner inputScanner = new Scanner(System.in);
+        newTask[0] = inputScanner.nextLine().strip();
 
         Pattern dateFormat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
         Matcher inputMatcher;
         String inputDate;
 
-        try (Scanner inputScanner = new Scanner(System.in)) {
-            while (true) {
-                System.out.println("Please add task due date");
-                inputDate = inputScanner.nextLine().strip();
-                inputMatcher = dateFormat.matcher(inputDate);
-                if (inputMatcher.matches()) {
-                    break;
-                } else {
-                    System.out.println("Wrong date format - YYYY-MM-DD is required:");
-                }
+        while (true) {
+            System.out.println("Please add task due date:");
+            inputDate = inputScanner.nextLine().strip();
+            inputMatcher = dateFormat.matcher(inputDate);
+            if (inputMatcher.matches()) {
+                break;
+            } else {
+                System.out.println("Wrong date format - YYYY-MM-DD is required:");
             }
         }
+
+
+
+        return taskTable;
     }
 
 
-    public static void removeTask() {
+    public static String[][] removeTask(String[][] taskTable) {
         System.out.println("remove");
+        return taskTable;
     }
 
 
-    public static void listTasks() {
+    public static String[][] listTasks(String[][] taskTable) {
         System.out.println("list");
+        return taskTable;
+    }
+
+
+    public static String[][] saveAndExit(String[][] taskTable) {
+        System.out.println("saveAndExit");
+        return taskTable;
     }
 
 
@@ -128,7 +148,7 @@ public class Main {
     }
 
 
-    public static Boolean isValidOption(String input) {
+    public static Boolean isValidCommand(String input) {
         return (input.equals("add") || input.equals("remove") || input.equals("list") || input.equals("exit"));
     }
 }
