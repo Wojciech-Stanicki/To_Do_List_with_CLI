@@ -81,9 +81,9 @@ public class Main {
             }
         }
 
+        String inputDate;
         Pattern dateFormat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
         Matcher inputMatcher;
-        String inputDate;
 
         while (true) {
             System.out.println("Please add task due date:");
@@ -95,6 +95,21 @@ public class Main {
                 System.out.println("Wrong date format - YYYY-MM-DD is required:");
             }
         }
+
+        String importanceInput;
+        Pattern importanceFormat = Pattern.compile("true|false");
+
+        while (true) {
+            System.out.println("Is your task important? true/false");
+            importanceInput = inputScanner.nextLine().strip().toLowerCase();
+            inputMatcher = importanceFormat.matcher(importanceInput);
+            if (inputMatcher.matches()) {
+                break;
+            } else {
+                System.out.println("Task importance must be either true or false.");
+            }
+        }
+
 
 
 
