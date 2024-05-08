@@ -3,13 +3,16 @@ package pl.coderslab;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Main {
 
     public static void main(String[] args) {
+
+        String[][] taskTable = loadCsvData("tasks.csv");
         printInteface();
     }
 
@@ -25,20 +28,19 @@ public class Main {
                 exit"""
         );
 
-        String input = "";
-        Scanner inputScanner = new Scanner(System.in);
+        String input;
 
-        while (!isValidOption(input)) {
-            try {
+
+        try (Scanner inputScanner = new Scanner(System.in)) {
+            while (true) {
                 input = inputScanner.nextLine().strip();
-                if (!isValidOption(input)) {
-                    throw new InputMismatchException();
+                if (isValidOption(input)) {
+                    break;
+                } else {
+                    System.out.println("Please select a correct option.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Please select a correct option.");
             }
         }
-        inputScanner.close();
 
         switch (input) {
             case "add" -> addTask();
@@ -50,7 +52,33 @@ public class Main {
 
 
     public static void addTask() {
-        System.out.println("add");
+
+        System.out.println("Please add task description:");
+
+        String[] newTask = {"Undefined Task", "0000-00-00", "false"};
+
+        try (Scanner inputScanner = new Scanner(System.in)) {
+            newTask[0] = inputScanner.nextLine().strip();
+        }
+
+        System.out.println("Please add task due date:");
+
+        Pattern dateFormat = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+        Matcher inputMatcher;
+        String inputDate;
+
+        try (Scanner inputScanner = new Scanner(System.in)) {
+            while (true) {
+                System.out.println("Please add task due date");
+                inputDate = inputScanner.nextLine().strip();
+                inputMatcher = dateFormat.matcher(inputDate);
+                if (inputMatcher.matches()) {
+                    break;
+                } else {
+                    System.out.println("Wrong date format - YYYY-MM-DD is required:");
+                }
+            }
+        }
     }
 
 
