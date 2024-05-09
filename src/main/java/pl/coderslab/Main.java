@@ -66,8 +66,6 @@ public class Main {
 
     public static String[][] addTask(String[][] taskTable) {
 
-
-        String[] newTask = {"Undefined Task", "0000-00-00", "false"};
         Scanner inputScanner = new Scanner(System.in);
         String inputTaskName;
 
@@ -110,8 +108,9 @@ public class Main {
             }
         }
 
-
-
+        String[] newTask = {inputTaskName, inputDate, importanceInput};
+        taskTable = Arrays.copyOf(taskTable, taskTable.length + 1);
+        taskTable[taskTable.length - 1] = newTask;
 
         return taskTable;
     }
