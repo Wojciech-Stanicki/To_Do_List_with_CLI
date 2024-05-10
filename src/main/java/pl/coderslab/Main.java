@@ -13,10 +13,15 @@ public class Main {
     public static void main(String[] args) {
 
         String[][] taskTable = loadCsvData("tasks.csv");
-        printInteface();
+        String command = "";
 
-        String command = getCommand();
-        takeAction(command, taskTable);
+        while (!command.equals("exit")) {
+            printInteface();
+            command = getCommand();
+            System.out.print("\n");
+            takeAction(command, taskTable);
+            System.out.print("\n");
+        }
     }
 
 
