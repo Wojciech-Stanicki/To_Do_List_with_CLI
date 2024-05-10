@@ -3,6 +3,7 @@ package pl.coderslab;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +20,7 @@ public class Main {
             printInteface();
             command = getCommand();
             System.out.print("\n");
-            takeAction(command, taskTable);
+            taskTable = takeAction(command, taskTable);
             System.out.print("\n");
         }
     }
@@ -48,7 +49,9 @@ public class Main {
             if (isValidCommand(input)) {
                 break;
             } else {
-                System.out.println("Please select a correct option.");
+                System.out.print("\n");
+                System.out.println("Invalid command.");
+                printInteface();
             }
         }
 
@@ -58,14 +61,20 @@ public class Main {
 
     public static String[][] takeAction(String action, String[][] taskTable) {
 
-        switch (action) {
-            case "add" -> addTask(taskTable);
-            case "remove" -> removeTask(taskTable);
-            case "list" -> listTasks(taskTable);
-            case "exit" -> saveAndExit(taskTable);
+        try {
+            taskTable = switch (action) {
+                case "add" -> addTask(taskTable);
+                case "remove" -> removeTask(taskTable);
+                case "list" -> listTasks(taskTable);
+                case "exit" -> saveAndExit(taskTable);
+                default -> throw new InputMismatchException();
+            };
+        } catch (InputMismatchException e) {
+            System.out.println("Something went terribly wrong! Unexpected command was passed.");
+            System.out.println("Please try again.");
         }
 
-        return taskTable;
+            return taskTable;
     }
 
 
@@ -185,6 +194,9 @@ public class Main {
 
         for (int i = 0; i < taskLines.length; i++) {
             taskElements = taskLines[i].split(",");
+            for (int j = 0; j < taskElements.length; j++) {
+                taskElements[j] = taskElements[j].strip();
+            }
             tasksTable[i] = taskElements;
         }
 
