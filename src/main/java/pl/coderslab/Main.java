@@ -24,11 +24,11 @@ public class Main {
 
         System.out.println("Please select an option:");
         System.out.println(
-                            """
-                            add
-                            remove
-                            list
-                            exit"""
+                """
+                        add
+                        remove
+                        list
+                        exit"""
         );
     }
 
@@ -72,7 +72,7 @@ public class Main {
         while (true) {
             System.out.println("Please add task description:");
             inputTaskName = inputScanner.nextLine().strip();
-            if (!inputTaskName.isBlank()){
+            if (!inputTaskName.isBlank()) {
                 break;
             } else {
                 System.out.println("Task name can't be blank.");
@@ -123,7 +123,33 @@ public class Main {
 
 
     public static String[][] listTasks(String[][] taskTable) {
-        System.out.println("list");
+
+        int longestTaskDescriptionLength = 0;
+
+        for (String[] task : taskTable) {
+            if (task[0].length() > longestTaskDescriptionLength) {
+                longestTaskDescriptionLength = task[0].length();
+            }
+        }
+
+        int alignmentSpaces;
+        StringBuilder singleTaskPresentation = new StringBuilder();
+
+        for (int i = 0; i < taskTable.length; i++) {
+            String taskName = taskTable[i][0];
+            String taskDueDate = taskTable[i][1];
+            String taskImportance = taskTable[i][2];
+            alignmentSpaces = longestTaskDescriptionLength - taskTable[i][0].length();
+
+            singleTaskPresentation.append(i).append(" : ");
+            singleTaskPresentation.append(taskName).append(" ".repeat(alignmentSpaces)).append("  ");
+            singleTaskPresentation.append(taskDueDate).append("  ");
+            singleTaskPresentation.append(taskImportance);
+
+            System.out.println(singleTaskPresentation);
+            singleTaskPresentation.setLength(0);
+        }
+
         return taskTable;
     }
 
@@ -134,7 +160,7 @@ public class Main {
     }
 
 
-    public static String[][] loadCsvData (String pathname) {
+    public static String[][] loadCsvData(String pathname) {
 
         File tasksFile = new File(pathname);
         String line;
@@ -145,7 +171,7 @@ public class Main {
                 line = lineScanner.nextLine();
                 taskLines = appendArray(taskLines, line);
             }
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Couldn't find file");
         }
 
@@ -163,7 +189,7 @@ public class Main {
 
     public static String[] appendArray(String[] arrayToAppend, String appendment) {
 
-        String[] resultArray = Arrays.copyOf(arrayToAppend,arrayToAppend.length + 1);
+        String[] resultArray = Arrays.copyOf(arrayToAppend, arrayToAppend.length + 1);
         resultArray[resultArray.length - 1] = appendment;
 
         return resultArray;
