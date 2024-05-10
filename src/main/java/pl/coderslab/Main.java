@@ -17,7 +17,7 @@ public class Main {
         String command = "";
 
         while (!command.equals("exit")) {
-            printInteface();
+            printInterface();
             command = getCommand();
             System.out.print("\n");
             taskTable = takeAction(command, taskTable);
@@ -26,7 +26,7 @@ public class Main {
     }
 
 
-    public static void printInteface() {
+    public static void printInterface() {
 
         System.out.println("Please select an option:");
         System.out.println(
@@ -51,7 +51,7 @@ public class Main {
             } else {
                 System.out.print("\n");
                 System.out.println("Invalid command.");
-                printInteface();
+                printInterface();
             }
         }
 
