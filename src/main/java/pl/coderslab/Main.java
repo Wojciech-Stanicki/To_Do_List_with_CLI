@@ -31,9 +31,9 @@ public class Main {
 
     public static void printInterface() {
 
-        System.out.println("Please select an option:");
+        System.out.println(ConsoleColors.BLUE + "Please select an option:" + ConsoleColors.RESET);
         System.out.println(
-                """
+                        """
                         add
                         remove
                         list
@@ -140,7 +140,7 @@ public class Main {
         String enteredLineToDelete;
         int lineToDeleteNumber;
 
-        if (taskTable.length == 0){
+        if (taskTable.length == 0) {
             System.out.println("Nothing to remove. You have no tasks to do. Enjoy your free time.");
             return taskTable;
         }
@@ -161,7 +161,7 @@ public class Main {
 
     public static String[][] listTasks(String[][] taskTable) {
 
-        if (taskTable.length == 0){
+        if (taskTable.length == 0) {
             System.out.println("No tasks to do. You are free.");
             return taskTable;
         }
@@ -205,6 +205,8 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("Couldn't find file");
         }
+        System.out.println(ConsoleColors.RED + "Bye, bye" + ConsoleColors.RESET);
+
         return taskTable;
     }
 
