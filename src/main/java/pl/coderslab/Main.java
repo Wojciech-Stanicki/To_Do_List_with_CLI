@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -137,7 +138,7 @@ public class Main {
 
         Scanner inputScanner = new Scanner(System.in);
         String enteredLineToDelete;
-        int lineToDeleteNumber = -1;
+        int lineToDeleteNumber;
 
         if (taskTable.length == 0){
             System.out.println("Nothing to remove. You have no tasks to do. Enjoy your free time.");
@@ -151,9 +152,7 @@ public class Main {
                 lineToDeleteNumber = Integer.parseInt(enteredLineToDelete);
                 taskTable = ArrayUtils.remove(taskTable, lineToDeleteNumber);
                 return taskTable;
-            } catch (NumberFormatException e) {
-                System.out.println("Incorrect argument passed. Please give number greater or equal 0:");
-            } catch (IndexOutOfBoundsException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("Incorrect argument passed. Please give number greater or equal 0:");
             }
         }
@@ -161,6 +160,11 @@ public class Main {
 
 
     public static String[][] listTasks(String[][] taskTable) {
+
+        if (taskTable.length == 0){
+            System.out.println("No tasks to do. You are free.");
+            return taskTable;
+        }
 
         int longestTaskDescriptionLength = 0;
 
@@ -193,7 +197,14 @@ public class Main {
 
 
     public static String[][] saveAndExit(String[][] taskTable) {
-        System.out.println("saveAndExit");
+
+        try (PrintWriter printWriter = new PrintWriter("tasks.csv")) {
+            for (String[] task : taskTable) {
+                printWriter.println(String.join(", ", task));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Couldn't find file");
+        }
         return taskTable;
     }
 
