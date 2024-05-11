@@ -1,5 +1,7 @@
 package pl.coderslab;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -51,6 +53,7 @@ public class Main {
             } else {
                 System.out.print("\n");
                 System.out.println("Invalid command.");
+                System.out.print("\n");
                 printInterface();
             }
         }
@@ -74,7 +77,7 @@ public class Main {
             System.out.println("Please try again.");
         }
 
-            return taskTable;
+        return taskTable;
     }
 
 
@@ -131,8 +134,29 @@ public class Main {
 
 
     public static String[][] removeTask(String[][] taskTable) {
-        System.out.println("remove");
-        return taskTable;
+
+        Scanner inputScanner = new Scanner(System.in);
+        String enteredLineToDelete;
+        int lineToDeleteNumber = -1;
+
+        if (taskTable.length == 0){
+            System.out.println("Nothing to remove. You have no tasks to do. Enjoy your free time.");
+            return taskTable;
+        }
+
+        while (true) {
+            System.out.println("Please select number to remove.");
+            enteredLineToDelete = inputScanner.nextLine().strip();
+            try {
+                lineToDeleteNumber = Integer.parseInt(enteredLineToDelete);
+                taskTable = ArrayUtils.remove(taskTable, lineToDeleteNumber);
+                return taskTable;
+            } catch (NumberFormatException e) {
+                System.out.println("Incorrect argument passed. Please give number greater or equal 0:");
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Incorrect argument passed. Please give number greater or equal 0:");
+            }
+        }
     }
 
 
@@ -213,7 +237,7 @@ public class Main {
     }
 
 
-    public static Boolean isValidCommand(String input) {
+    public static boolean isValidCommand(String input) {
         return (input.equals("add") || input.equals("remove") || input.equals("list") || input.equals("exit"));
     }
 }
